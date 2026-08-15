@@ -1,4 +1,4 @@
-const CACHE_NAME = "earsteps-pwa-v2";
+const CACHE_NAME = "earsteps-pwa-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -35,29 +35,28 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put("./index.html", copy));
-          return response;
-        })
-        .catch(() => caches.match("./index.html")),
-    );
-    return;
+  event.respondWith(networkFirst(event.request));
+});
+
+async function networkFirst(request) {
+  let networkResponse;
+
+  try {
+    networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+      const cache = await caches.open(CACHE_NAME);
+      const cacheKey = request.mode === "navigate" ? "./index.html" : request;
+      await cache.put(cacheKey, networkResponse.clone());
+      return networkResponse;
+    }
+  } catch (error) {
+    // A cached response below keeps the installed app available offline.
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
-        if (response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-        }
-        return response;
-      });
-    }),
-  );
-});
+  const cacheKey = request.mode === "navigate" ? "./index.html" : request;
+  const cachedResponse = await caches.match(cacheKey);
+  if (cachedResponse) return cachedResponse;
+  if (networkResponse) return networkResponse;
+
+  return Response.error();
+}

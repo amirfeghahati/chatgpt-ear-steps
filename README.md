@@ -2,6 +2,8 @@
 
 A small, zero-install solfege ear trainer with a companion Setar practice mode.
 
+> **Status: Beta.** EarSteps is being tested and refined during regular practice sessions.
+
 ## Run it
 
 Open `index.html` in a modern browser, or serve this folder locally:
@@ -25,7 +27,7 @@ EarSteps is an installable Progressive Web App (PWA). After it is published on a
 
 The laptop LAN address (`http://192.168...`) is useful for testing, but phone browsers require HTTPS before they allow service-worker installation. Any static HTTPS host can serve this folder; there is no backend or database to configure.
 
-When releasing changed app files, update `CACHE_NAME` in `sw.js` so installed copies download a fresh application shell.
+While online, EarSteps requests current app files and refreshes its cache. If the network is unavailable, it falls back to the last successfully cached version. The hosted beta also asks search engines not to index it through page metadata and `robots.txt`; this reduces discovery but is not access control.
 
 ## What is included
 

@@ -346,7 +346,7 @@
   function registerServiceWorker() {
     if (!("serviceWorker" in navigator) || !supportsPwaInstallation()) return;
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js")
+      navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" })
         .then(() => navigator.serviceWorker.ready)
         .then(() => document.documentElement.setAttribute("data-offline-ready", "true"))
         .catch((error) => {
