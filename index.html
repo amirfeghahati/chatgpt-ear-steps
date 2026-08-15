@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A focused solfege ear trainer and Setar sequence practice app."
+    />
+    <title>EarSteps — Solfege ear training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Practice settings">
+        <a class="brand" href="#" aria-label="EarSteps home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 42 42" role="img">
+              <path d="M12 24c0-8.2 4.6-13 10.7-13 5.6 0 9.3 3.5 9.3 8.8 0 4.3-2.2 7.1-5.9 9.1-2.4 1.3-3.4 2.4-3.4 4.6" />
+              <path d="M13.5 28.5c1.7 0 3.1 1.4 3.1 3.1s-1.4 3.1-3.1 3.1-3.1-1.4-3.1-3.1 1.4-3.1 3.1-3.1Z" />
+              <path d="M20 18.5c1.1-1.5 3-2.3 4.8-1.7 2.1.7 3.1 3 2.3 5" />
+            </svg>
+          </span>
+          <span>Ear<span>Steps</span></span>
+        </a>
+
+        <div class="mode-switch" role="tablist" aria-label="Practice mode">
+          <button class="mode-tab active" data-mode="ear" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a6 6 0 0 0-6 6c0 4.5 4 4.4 4 8a2 2 0 0 0 4 0c0-2 1.2-2.7 2.5-3.6A5.4 5.4 0 0 0 18 10a6 6 0 0 0-6-6Z"/><path d="M10 10a2 2 0 0 1 4 0c0 2-2 2-2 4"/></svg>
+            Ear quiz
+          </button>
+          <button class="mode-tab" data-mode="instrument" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5 5-3 3 3-3 5"/><path d="M16.5 7.5 8 16"/><path d="M11 13c2.2 2.2 2.6 5.4.8 7.2-1.8 1.8-5 .9-7.2-1.3s-3.1-5.4-1.3-7.2c1.8-1.8 5-.9 7.2 1.3Z"/></svg>
+            Setar practice
+          </button>
+          <button class="mode-tab" data-mode="learn" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V7M10 18V11M16 18V4M22 18H2"/><circle cx="4" cy="7" r="1.5"/><circle cx="10" cy="11" r="1.5"/><circle cx="16" cy="4" r="1.5"/></svg>
+            Distance lab
+          </button>
+        </div>
+
+        <button class="mobile-settings-toggle" id="mobileSettingsToggle" type="button" aria-expanded="false">
+          <span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M5 10h10M7 15h6"/><circle cx="7" cy="5" r="1.5"/><circle cx="13" cy="10" r="1.5"/><circle cx="9" cy="15" r="1.5"/></svg>
+            Exercise settings
+          </span>
+          <small id="settingsSummary">3 notes · 8 pitches</small>
+          <svg class="toggle-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"/></svg>
+        </button>
+
+        <div class="settings-scroll">
+          <section class="setting-group">
+            <div class="setting-heading">
+              <label>Notes to use</label>
+              <button id="selectAllNotes" class="text-button" type="button">Select all</button>
+            </div>
+            <div class="register-picker" id="registerPicker" aria-label="Setar pitch register">
+              <button type="button" class="active" data-register="low">
+                <span>Low</span><small>Fa3–Fa4</small>
+              </button>
+              <button type="button" data-register="high">
+                <span>High</span><small>Fa4–Fa5</small>
+              </button>
+            </div>
+            <div class="note-picker" id="notePicker" aria-label="Notes to include"></div>
+            <p class="setting-hint" id="noteRangeHint">Low Setar register · 175–349 Hz</p>
+          </section>
+
+          <section class="setting-group">
+            <label>Notes per sequence</label>
+            <div class="segmented" id="lengthPicker" aria-label="Number of notes">
+              <button type="button" data-length="2">2</button>
+              <button type="button" data-length="3" class="active">3</button>
+              <button type="button" data-length="4">4</button>
+            </div>
+          </section>
+
+          <section class="setting-group">
+            <div class="setting-heading">
+              <label>Sequence shapes</label>
+              <span class="mini-label">Mix</span>
+            </div>
+            <div class="pattern-picker" id="patternPicker">
+              <label class="check-card" data-min-length="2">
+                <input type="checkbox" value="ascending" checked />
+                <span class="check-box"><svg viewBox="0 0 14 14"><path d="m3 7 2.5 2.5L11 4"/></svg></span>
+                <span>Rising</span>
+                <svg class="trend" viewBox="0 0 32 16" aria-hidden="true"><path d="m2 13 10-5 7 2 11-8" /></svg>
+              </label>
+              <label class="check-card" data-min-length="2">
+                <input type="checkbox" value="descending" checked />
+                <span class="check-box"><svg viewBox="0 0 14 14"><path d="m3 7 2.5 2.5L11 4"/></svg></span>
+                <span>Falling</span>
+                <svg class="trend" viewBox="0 0 32 16" aria-hidden="true"><path d="m2 3 10 5 7-2 11 8" /></svg>
+              </label>
+              <label class="check-card" data-min-length="3">
+                <input type="checkbox" value="upDown" checked />
+                <span class="check-box"><svg viewBox="0 0 14 14"><path d="m3 7 2.5 2.5L11 4"/></svg></span>
+                <span>Up then down</span>
+                <svg class="trend" viewBox="0 0 32 16" aria-hidden="true"><path d="m2 13 14-11 14 11" /></svg>
+              </label>
+              <label class="check-card" data-min-length="3">
+                <input type="checkbox" value="downUp" checked />
+                <span class="check-box"><svg viewBox="0 0 14 14"><path d="m3 7 2.5 2.5L11 4"/></svg></span>
+                <span>Down then up</span>
+                <svg class="trend" viewBox="0 0 32 16" aria-hidden="true"><path d="m2 3 14 11L30 3" /></svg>
+              </label>
+            </div>
+          </section>
+
+          <section class="setting-group interval-setting-group">
+            <div class="setting-heading">
+              <label for="intervalChallenge">Second challenge</label>
+              <span class="mini-label new-label">Recommended</span>
+            </div>
+            <label class="toggle-setting">
+              <span>
+                <strong>Guess the distance</strong>
+                <small>One highlighted jump per sequence</small>
+              </span>
+              <input id="intervalChallenge" type="checkbox" checked />
+              <i aria-hidden="true"></i>
+            </label>
+          </section>
+
+          <section class="setting-group sound-setting-group">
+            <div class="setting-heading">
+              <label>Sound character</label>
+              <span class="mini-label">Audio</span>
+            </div>
+            <div class="sound-picker" id="soundPicker" aria-label="Sound character">
+              <button type="button" class="active" data-timbre="pluck">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 16c3-5 7-8 11-11M8 16c2-3 5-6 8-8M4 12c1 1 3 3 4 4"/></svg>
+                <span><strong>Warm pluck</strong><small>Setar-like decay</small></span>
+              </button>
+              <button type="button" data-timbre="clean">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h2l2-5 3 10 3-8 2 5h2"/></svg>
+                <span><strong>Clean tone</strong><small>Easier to compare</small></span>
+              </button>
+            </div>
+          </section>
+
+          <section class="setting-group tempo-group">
+            <div class="setting-heading">
+              <label for="tempo">Time between notes</label>
+              <output id="tempoOutput" for="tempo">0.75 sec</output>
+            </div>
+            <input id="tempo" type="range" min="0.35" max="1.25" value="0.75" step="0.05" />
+            <div class="range-labels"><span>Faster</span><span>Slower</span></div>
+          </section>
+        </div>
+
+        <div class="learn-sidebar" aria-label="Distance Lab instructions">
+          <p class="learn-sidebar-label">HOW TO USE THE LAB</p>
+          <ol>
+            <li><span>1</span><p><strong>Choose a distance</strong><small>Start with 1, 2, and 3 steps.</small></p></li>
+            <li><span>2</span><p><strong>Listen both ways</strong><small>Direction changes; distance does not.</small></p></li>
+            <li><span>3</span><p><strong>Sing it before replaying</strong><small>Then find the second note on your Setar.</small></p></li>
+          </ol>
+          <div class="learn-sidebar-note">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/><path d="M10 9v5M10 6.5v.2"/></svg>
+            <p>The quiz currently asks for <strong>solfege steps</strong>. Exact semitone size is shown here as a second layer.</p>
+          </div>
+        </div>
+
+        <div class="sidebar-tip">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M8.5 14.5A7 7 0 1 1 16 14c-.8.7-1 1.3-1 2H9c0-.8-.1-1.1-.5-1.5Z"/></svg>
+          <p><strong>Practice tip</strong><br />Sing the notes back before checking.</p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="modeEyebrow">EAR TRAINING · LEVEL 1</p>
+            <h1 id="pageTitle">Which way did the melody move?</h1>
+          </div>
+          <div class="stats" id="sessionStats" aria-label="Session statistics">
+            <div class="stat"><span id="scoreValue">0 / 0</span><small>Shapes</small></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><span id="intervalScoreValue">0 / 0</span><small>Distances</small></div>
+            <div class="stat-divider"></div>
+            <div class="stat streak-stat">
+              <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11.5 2.5c.7 3-1.8 4.3-1.5 6.4.2 1.1 1 1.7 1.8 1.7 1.5 0 2.7-1.5 2.4-4 1.8 1.7 2.8 3.7 2.6 5.8-.3 3.4-3.1 5.5-6.6 5.5-3.7 0-6.7-2.5-6.7-6.1 0-2.7 1.6-5.1 4.5-7.2-.3 3.2 1 3.9 1.8 3.7 1.3-.4 1.8-2.7 1.7-5.8Z"/></svg><b id="streakValue">0</b></span>
+              <small>Streak</small>
+            </div>
+          </div>
+        </header>
+
+        <section id="earPanel" class="practice-panel" aria-labelledby="pageTitle">
+          <div class="challenge-card">
+            <div class="challenge-topline">
+              <span class="challenge-number" id="questionNumber">QUESTION 1</span>
+              <span class="sound-label"><i></i> 3 notes</span>
+            </div>
+
+            <div class="listening-stage">
+              <div class="pulse-rings" aria-hidden="true"><span></span><span></span></div>
+              <button class="play-button" id="playQuiz" type="button" aria-label="Play note sequence">
+                <svg class="play-icon" viewBox="0 0 28 28" aria-hidden="true"><path d="m9 6 13 8L9 22V6Z" /></svg>
+                <svg class="pause-icon" viewBox="0 0 28 28" aria-hidden="true"><path d="M8 6h4v16H8zM16 6h4v16h-4z" /></svg>
+              </button>
+              <p id="listenTitle">Tap to listen</p>
+              <small id="listenSubtitle">You can replay the sequence</small>
+              <div class="note-dots" id="noteDots" aria-hidden="true"></div>
+            </div>
+
+            <div class="answer-section">
+              <div class="quiz-progress" id="quizProgress" aria-label="Quiz progress">
+                <span class="active" data-progress-phase="contour"><b>1</b> Shape</span>
+                <i></i>
+                <span data-progress-phase="interval"><b>2</b> Distance</span>
+              </div>
+              <p class="answer-prompt" id="answerPrompt">Choose the shape you heard</p>
+              <div class="interval-guide" id="intervalGuide" hidden></div>
+              <div class="answer-grid" id="answerGrid"></div>
+              <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+              <div class="challenge-actions">
+                <button id="revealAnswer" class="secondary-button" type="button">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5Z"/><circle cx="10" cy="10" r="2.3"/></svg>
+                  Show notes
+                </button>
+                <button id="nextQuestion" class="primary-button" type="button">
+                  Next sequence
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <p class="keyboard-hint"><kbd>Space</kbd> replay &nbsp;·&nbsp; <kbd>1–4</kbd> answer &nbsp;·&nbsp; <kbd>Enter</kbd> next</p>
+        </section>
+
+        <section id="instrumentPanel" class="practice-panel" hidden aria-labelledby="pageTitle">
+          <div class="instrument-card">
+            <div class="challenge-topline">
+              <span class="challenge-number">YOUR PRACTICE PHRASE</span>
+              <span class="contour-badge" id="practiceContour">Rising</span>
+            </div>
+
+            <div class="instrument-stage">
+              <div class="instrument-illustration" aria-hidden="true">
+                <svg viewBox="0 0 180 100"><path class="instrument-body" d="M49 54c13-18 37-18 46 0 8 17-10 36-28 36S37 71 49 54Z"/><path class="instrument-neck" d="m85 51 70-36 5 8-69 38Z"/><path class="instrument-line" d="m58 62 101-43M64 68l96-47M75 54c8 6 8 17 0 25M104 43l5 10M122 34l5 10M140 25l5 9"/></svg>
+              </div>
+              <p>Play this slowly on your Setar</p>
+              <div class="sequence-display" id="practiceSequence" aria-label="Practice note sequence"></div>
+              <small>Hear it in your head first, then play.</small>
+            </div>
+
+            <div class="practice-controls">
+              <button id="playPractice" class="listen-button" type="button">
+                <span class="round-icon"><svg class="play-icon" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"/></svg><svg class="pause-icon" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM14 5h4v14h-4z"/></svg></span>
+                <span><strong>Listen to reference</strong><small>Clean synthesized pitch</small></span>
+              </button>
+              <button id="newPractice" class="primary-button" type="button">New phrase <svg viewBox="0 0 20 20"><path d="m7 4 6 6-6 6"/></svg></button>
+            </div>
+
+            <div class="self-check">
+              <span>How did it feel?</span>
+              <div>
+                <button type="button" data-rating="again">Practice again</button>
+                <button type="button" data-rating="got-it">Got it!</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="practice-note">
+            <span>1</span>
+            <p><strong>Start without looking at your hand.</strong> Say or sing each solfege name as you play it. Accuracy matters more than speed.</p>
+          </div>
+        </section>
+
+        <section id="learnPanel" class="practice-panel learn-panel" hidden aria-labelledby="pageTitle">
+          <div class="learn-card">
+            <div class="challenge-topline learn-topline">
+              <span class="challenge-number">INTERACTIVE DISTANCE REFERENCE</span>
+              <div class="direction-switch" id="learnDirection" aria-label="Playback direction">
+                <button type="button" class="active" data-direction="ascending">
+                  <svg viewBox="0 0 18 18" aria-hidden="true"><path d="m3 13 10-10M7 3h6v6"/></svg>
+                  Upward
+                </button>
+                <button type="button" data-direction="descending">
+                  <svg viewBox="0 0 18 18" aria-hidden="true"><path d="m3 5 10 10M7 15h6V9"/></svg>
+                  Downward
+                </button>
+              </div>
+            </div>
+
+            <div class="learn-focus">
+              <div class="distance-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+              <div class="selected-distance-copy">
+                <p>SELECTED DISTANCE</p>
+                <div><strong id="learnStepNumber">2</strong><span>scale<br />steps</span></div>
+                <h2 id="learnIntervalName">A 3rd</h2>
+                <small id="learnSemitones">Do–Mi reference · 4 semitones</small>
+              </div>
+
+              <div class="learn-sequence-wrap">
+                <div class="learn-sequence" id="learnSequence" aria-label="Selected interval notes"></div>
+                <button class="learn-play-button" id="learnPlay" type="button">
+                  <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg>
+                  <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM14 5h4v14h-4z"/></svg>
+                  <span>Hear this distance</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="distance-library-section">
+              <div class="library-heading">
+                <div>
+                  <p>THE DISTANCE LADDER</p>
+                  <h3>Build outward from Do</h3>
+                </div>
+                <small>Tap a card to hear it</small>
+              </div>
+              <div class="distance-library" id="distanceLibrary"></div>
+            </div>
+          </div>
+
+          <div class="sound-size-card">
+            <div class="sound-size-copy">
+              <span class="lesson-number">01</span>
+              <div>
+                <p>IMPORTANT DISTINCTION</p>
+                <h3>One scale step does not always sound equally large.</h3>
+                <p class="lesson-body">Both examples are neighboring solfege notes—a musical 2nd—but <strong>Mi–Fa is half the acoustic distance of Do–Re</strong>. Compare them until you can hear the tighter pair.</p>
+              </div>
+            </div>
+            <div class="comparison-stack">
+              <div class="comparison-pairs">
+                <button type="button" data-compare="do-re">
+                  <span class="comparison-play"><svg viewBox="0 0 20 20"><path d="m7 4 8 6-8 6V4Z"/></svg></span>
+                  <span><strong>Do4 → Re4</strong><small>Up · 2 semitones · major 2nd</small></span>
+                </button>
+                <div class="versus">VS</div>
+                <button type="button" data-compare="mi-fa">
+                  <span class="comparison-play"><svg viewBox="0 0 20 20"><path d="m7 4 8 6-8 6V4Z"/></svg></span>
+                  <span><strong>Mi4 → Fa4</strong><small>Up · 1 semitone · minor 2nd</small></span>
+                </button>
+              </div>
+              <div class="comparison-pairs">
+                <button type="button" data-compare="re-do">
+                  <span class="comparison-play descending"><svg viewBox="0 0 20 20"><path d="m7 4 8 6-8 6V4Z"/></svg></span>
+                  <span><strong>Re4 → Do4</strong><small>Down · 2 semitones · major 2nd</small></span>
+                </button>
+                <div class="versus">VS</div>
+                <button type="button" data-compare="fa-mi">
+                  <span class="comparison-play descending"><svg viewBox="0 0 20 20"><path d="m7 4 8 6-8 6V4Z"/></svg></span>
+                  <span><strong>Fa4 → Mi4</strong><small>Down · 1 semitone · minor 2nd</small></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="logic.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
