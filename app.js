@@ -66,6 +66,7 @@
     instrumentPanel: document.querySelector("#instrumentPanel"),
     learnPanel: document.querySelector("#learnPanel"),
     sessionStats: document.querySelector("#sessionStats"),
+    installApp: document.querySelector("#installApp"),
     practiceContour: document.querySelector("#practiceContour"),
     practiceSequence: document.querySelector("#practiceSequence"),
     playPractice: document.querySelector("#playPractice"),
@@ -84,6 +85,7 @@
   let activeOscillators = [];
   let playTimer = null;
   let toastTimer = null;
+  let deferredInstallPrompt = null;
 
   function loadStats() {
     try {
@@ -299,6 +301,60 @@
     elements.toast.textContent = message;
     elements.toast.classList.add("show");
     toastTimer = setTimeout(() => elements.toast.classList.remove("show"), 3200);
+  }
+
+  function isStandaloneApp() {
+    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  }
+
+  function supportsPwaInstallation() {
+    const localHosts = ["localhost", "127.0.0.1"];
+    return window.location.protocol === "https:" || localHosts.includes(window.location.hostname);
+  }
+
+  function configurePwa() {
+    if (!supportsPwaInstallation() || isStandaloneApp()) return;
+    elements.installApp.hidden = false;
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      elements.installApp.classList.add("ready");
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      elements.installApp.hidden = true;
+      showToast("EarSteps is installed and ready offline.");
+    });
+
+    elements.installApp.addEventListener("click", async () => {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        if (choice.outcome === "accepted") elements.installApp.hidden = true;
+        return;
+      }
+      const isAppleMobile = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+      showToast(isAppleMobile
+        ? "On iPhone or iPad: tap Share, then Add to Home Screen."
+        : "Open the browser menu and choose Install app or Add to Home screen.");
+    });
+  }
+
+  function registerServiceWorker() {
+    if (!("serviceWorker" in navigator) || !supportsPwaInstallation()) return;
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => navigator.serviceWorker.ready)
+        .then(() => document.documentElement.setAttribute("data-offline-ready", "true"))
+        .catch((error) => {
+          console.warn("EarSteps offline mode could not start:", error);
+        });
+    });
+    window.addEventListener("offline", () => showToast("You are offline. EarSteps will keep working."));
+    window.addEventListener("online", () => showToast("Back online."));
   }
 
   function selectedPatterns() {
@@ -825,6 +881,8 @@
   setControlsForLength();
   elements.tempo.dispatchEvent(new Event("input"));
   createSequence();
+  configurePwa();
+  registerServiceWorker();
   if (window.location.hash === "#setar") changeMode("instrument");
   if (window.location.hash === "#learn") changeMode("learn");
 })();

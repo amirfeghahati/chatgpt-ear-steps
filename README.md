@@ -14,6 +14,19 @@ Then visit `http://localhost:8080`.
 
 No packages or build step are required. Audio is generated in the browser with the Web Audio API.
 
+## Install on a phone
+
+EarSteps is an installable Progressive Web App (PWA). After it is published on an **HTTPS** static host:
+
+1. Open the HTTPS address on the phone while online.
+2. On Android, press **Install app** in EarSteps or use the browser's **Install app / Add to Home screen** command.
+3. On iPhone or iPad, open the address in Safari, press **Share**, and choose **Add to Home Screen**.
+4. Launch EarSteps once from its home-screen icon. The quiz, Distance Lab, Setar practice, settings, and synthesized audio then work offline.
+
+The laptop LAN address (`http://192.168...`) is useful for testing, but phone browsers require HTTPS before they allow service-worker installation. Any static HTTPS host can serve this folder; there is no backend or database to configure.
+
+When releasing changed app files, update `CACHE_NAME` in `sw.js` so installed copies download a fresh application shell.
+
 ## What is included
 
 - Ear quizzes with 2-, 3-, or 4-note sequences

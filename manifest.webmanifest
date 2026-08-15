@@ -1,0 +1,47 @@
+{
+  "id": "./",
+  "name": "EarSteps — Solfege Ear Training",
+  "short_name": "EarSteps",
+  "description": "Practice melodic direction, pitch distance, and Setar note sequences.",
+  "start_url": "./index.html#ear",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8f5",
+  "theme_color": "#1f7055",
+  "orientation": "any",
+  "categories": ["education", "music"],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ear quiz",
+      "short_name": "Quiz",
+      "url": "./index.html#ear",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Setar practice",
+      "short_name": "Setar",
+      "url": "./index.html#setar",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Distance Lab",
+      "short_name": "Distances",
+      "url": "./index.html#learn",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

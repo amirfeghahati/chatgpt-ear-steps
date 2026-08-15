@@ -2,12 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
       content="A focused solfege ear trainer and Setar sequence practice app."
     />
     <title>EarSteps — Solfege ear training</title>
+    <meta name="theme-color" content="#1f7055" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="EarSteps" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -181,6 +189,11 @@
             <p class="eyebrow" id="modeEyebrow">EAR TRAINING · LEVEL 1</p>
             <h1 id="pageTitle">Which way did the melody move?</h1>
           </div>
+          <div class="topbar-actions">
+            <button class="install-app-button" id="installApp" type="button" hidden>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v10M6 8l4 4 4-4M3 15v2h14v-2"/></svg>
+              <span>Install app</span>
+            </button>
           <div class="stats" id="sessionStats" aria-label="Session statistics">
             <div class="stat"><span id="scoreValue">0 / 0</span><small>Shapes</small></div>
             <div class="stat-divider"></div>
@@ -190,6 +203,7 @@
               <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11.5 2.5c.7 3-1.8 4.3-1.5 6.4.2 1.1 1 1.7 1.8 1.7 1.5 0 2.7-1.5 2.4-4 1.8 1.7 2.8 3.7 2.6 5.8-.3 3.4-3.1 5.5-6.6 5.5-3.7 0-6.7-2.5-6.7-6.1 0-2.7 1.6-5.1 4.5-7.2-.3 3.2 1 3.9 1.8 3.7 1.3-.4 1.8-2.7 1.7-5.8Z"/></svg><b id="streakValue">0</b></span>
               <small>Streak</small>
             </div>
+          </div>
           </div>
         </header>
 
