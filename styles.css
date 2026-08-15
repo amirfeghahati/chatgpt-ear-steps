@@ -157,6 +157,14 @@ input[type="range"]::-moz-range-thumb { width: 11px; height: 11px; border: 3px s
 .sidebar-tip strong { color: #47544e; font-size: 10px; }
 
 .main-content { min-width: 0; padding: 43px clamp(28px, 6vw, 88px) 50px; }
+.site-footer {
+  max-width: 930px;
+  margin: 30px auto 0;
+  color: #7f8b85;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
 .topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; max-width: 930px; margin: 0 auto 30px; }
 .topbar-actions { display: flex; align-items: center; gap: 9px; }
 .install-app-button { display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 8px 11px; border: 1px solid #bad1c5; border-radius: 11px; color: var(--green); background: rgba(255,255,255,.82); box-shadow: 0 4px 16px rgba(40,63,52,.04); font-size: 9px; font-weight: 800; cursor: pointer; white-space: nowrap; }

@@ -62,3 +62,7 @@ The current pitches are equal-tempered reference notes, not a complete model of 
 Begin with two-note rising/falling sequences and the notes Do, Re, and Mi. Once the direction feels reliable, enable **Guess the distance**. The app counts the gaps between scale degrees: Do to Re is one scale step (a 2nd), while Do to Mi is two scale steps (a 3rd). For longer sequences, it highlights and replays only one adjacent pair so the exercise tests pitch distance rather than short-term memory.
 
 Use **Distance Lab** before or after a quiz session. Start by comparing 1, 2, and 3 scale steps, sing the target note before replaying it, and practice the same pair upward and downward. The lab uses Do as a consistent reference and also shows the exact semitone size. This distinction matters: Do–Re and Mi–Fa are both neighboring solfege notes (a 2nd), but Do–Re spans two semitones while Mi–Fa spans one.
+
+## Copyright
+
+Copyright © 2026 Amir Feghahati. All rights reserved.
